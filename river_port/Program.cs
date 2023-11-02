@@ -17,7 +17,7 @@ namespace ships
         
         {
 
-            System.Timers.Timer timer = new System.Timers.Timer(1000);
+            System.Timers.Timer timer = new System.Timers.Timer(2000);
             /*while (true)
             {
                 
@@ -62,7 +62,7 @@ namespace ships
             }
 
             Ship firstShip = ships.FirstOrDefault();
-            timer.Elapsed += (sender, e) => OnTimerElapsed1(sender, e, firstShip, ships, waiter_ship, port, docked_ships);
+            timer.Elapsed += (sender, e) => OnTimerElapsed1(sender, e, firstShip, ships, waiter_ship, port, docked_ships, leave_ship);
 
             //timer.Elapsed += OnTimerElapsed2;
 
@@ -75,13 +75,18 @@ namespace ships
             Console.ReadLine(); // This line will keep the console application running.
         }
 
-        public static void ship_arrival(Port port, Ship ship, List<Ship> ships, List<Ship> docked_ships)
+        public static void ship_arrival(Port port, Ship ship, List<Ship> waiter_ship, List<Ship> docked_ships)
         {
-            ship.arrival_time = time;
-            Console.WriteLine($"{ship.get_type()} корабль прибыл в порт в {ship.arrival_time}");
-            docked_ships.Add(ship);
-            port.change_place_minus(ship.get_occupied_place());
-            
+
+            bool a = check_place(port, ship);
+            if (a)
+            {
+                ship.arrival_time = time;
+                Console.WriteLine($"{ship.get_type()} корабль прибыл в порт в {ship.arrival_time}");
+                waiter_ship.Remove(ship);
+                docked_ships.Add(ship);
+                port.change_place_minus(ship.get_occupied_place());
+            }
         }
 
 
@@ -122,48 +127,61 @@ namespace ships
         
         
 
-        public static void ship_departure(Port port, Ship ship, List<Ship> ships, List<Ship> leave_ship)
+        public static void ship_departure(Port port, Ship ship, List<Ship> docked_ships, List<Ship> leave_ship)
         {           
-
-        
-            ships.Remove(ship);
-            port.change_place_plus(ship.get_occupied_place());
-            Console.WriteLine($"{ship.get_type()} {ship.get_name()} уплыл в {time}");
-            
+            bool a = check_place(port, ship);
+            if (a)
+            {
+                
+                docked_ships.Remove(ship);
+                port.change_place_plus(ship.get_occupied_place());
+                leave_ship.Add(ship);
+                Console.WriteLine($"{ship.get_type()} {ship.get_name()} уплыл в {time}");
+            }
+            else
+            {
+                ship_departure(port, ship, docked_ships, leave_ship);
+            }
 
         }
 
 
-        static void OnTimerElapsed1(object sender, System.Timers.ElapsedEventArgs e, Ship firstShip, List<Ship> ships, List<Ship> waiter_ship, Port port, List<Ship> docked_ships)
+        static void OnTimerElapsed1(object sender, System.Timers.ElapsedEventArgs e, Ship firstShip, List<Ship> ships, List<Ship> waiter_ship, Port port, List<Ship> docked_ships, List<Ship> leave_ship)
         {
-            lock (waiter_ship)
+
+            if (time % 60 == 0)
             {
-                if (time % 60 == 0)
+                Console.WriteLine("пРОШЕЛ ЧАС");
+                if (ships.Count > 0)
                 {
-                    Console.WriteLine("пРОШЕЛ ЧАС");
-                    if (ships.Count > 0)
-                    {
-                        Ship ship1 = ships[0];
-                        waiter_ship.Add(ship1);
-                        ships.Remove(ship1);
-                        Console.WriteLine($"Корабль {ship1.get_name()} добавлен в waiter_ship в {time}");
-
-                        if (waiter_ship.Count > 0)
-                        {
-                            Ship ship2 = waiter_ship[0];
-                            bool a = check_place(port, ship2);
-
-                            if (a)
-                            {
-                                ship_arrival(port, ship2, ships, docked_ships);
-                                waiter_ship.Remove(ship2);
-                            }
-                        }
-                    }
+                    Ship ship1 = ships[0];
+                    waiter_ship.Add(ship1);
+                    ships.Remove(ship1);
+                    Console.WriteLine($"Корабль {ship1.get_name()} добавлен в waiter_ship в {time}");
+                    
                 }
             }
 
-            time += 10;
+            if (waiter_ship.Count > 0)
+            {
+                Ship ship2 = waiter_ship[0];
+                ship_arrival(port, ship2, waiter_ship, docked_ships);
+            }
+
+            //if (docked_ships.Count > 0)
+            //{
+            //    Ship ship3 = docked_ships[0];
+            //    ship_departure(port, ship3, docked_ships, leave_ship);
+            //}
+            
+            
+                
+            
+            
+
+        
+
+            time += 20;
         }
 
 
