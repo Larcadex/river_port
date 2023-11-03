@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ships
 {
@@ -14,7 +10,6 @@ namespace ships
         protected int service_time;
         protected int arrival_time;
         
-
         public Ship(string name, string type, int occupied_place, int service_time)
         {
             this.name = name;
@@ -32,10 +27,6 @@ namespace ships
         {
             return arrival_time; 
         }
-        public void set_arrival_time(int setter)
-        {
-            arrival_time = setter;
-        }
 
         public int get_service_time()
         {
@@ -51,6 +42,11 @@ namespace ships
         {
             return name;
         }
-        
+
+        public void set_arrival_time(int setter)
+        {
+            arrival_time = setter;
+        }
+
     }
 }
