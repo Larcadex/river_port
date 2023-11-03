@@ -11,7 +11,7 @@ namespace ships
         protected string name;
         protected string type;
         protected int occupied_place;
-        protected int service_time;
+        public int service_time;
         public int arrival_time;
         public int port_arrival_time;
 
