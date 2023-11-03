@@ -20,15 +20,10 @@ namespace ships
             return avaliable_place;
         }
 
-        public void change_place_plus(int ship_place)
+        public void set_avaliable_place(int setter)
         {
-            avaliable_place =+ ship_place;
+            avaliable_place = setter;
         }
-        
-        public void change_place_minus(int ship_place)
-        {
-            avaliable_place =- ship_place;
-        }
-        
+
     }
 }

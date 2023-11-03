@@ -11,10 +11,8 @@ namespace ships
         protected string name;
         protected string type;
         protected int occupied_place;
-        public int service_time;
-        public int arrival_time;
-        public int port_arrival_time;
-
+        protected int service_time;
+        protected int arrival_time;
         
 
         public Ship(string name, string type, int occupied_place, int service_time)
@@ -29,6 +27,16 @@ namespace ships
         {
             return occupied_place;
         }
+
+        public int get_arrival_time()
+        {
+            return arrival_time; 
+        }
+        public void set_arrival_time(int setter)
+        {
+            arrival_time = setter;
+        }
+
         public int get_service_time()
         {
             return service_time;
