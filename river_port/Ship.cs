@@ -4,11 +4,12 @@ namespace ships
 {
     class Ship
     {
-        protected string name;
-        protected string type;
-        protected int occupied_place;
-        protected int service_time;
-        protected int arrival_time;
+        private string  name;
+        private string type;
+        private int occupied_place;
+        private int service_time;
+        private int arrival_time;
+
         
         public Ship(string name, string type, int occupied_place, int service_time)
         {
