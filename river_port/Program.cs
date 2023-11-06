@@ -27,19 +27,19 @@ namespace ships
 
             for (int i = 1; i <= 30; i++)
             {
-                Ship ship = new Ship($"корабль {i}", "Маленький", 1, 30);
+                Ship ship = new Ship($"корабль {i}", "Маленький", 1, 70);
                 ships.Add(ship);
             }
 
             for (int i = 31; i <= 45; i++)
             {
-                Ship ship = new Ship($"корабль {i}", "Средний", 2, 60);
+                Ship ship = new Ship($"корабль {i}", "Средний", 2, 100);
                 ships.Add(ship);
             }
 
             for (int i = 46; i <= 50; i++)
             {
-                Ship ship = new Ship($"корабль {i}", "Большой", 3, 120);
+                Ship ship = new Ship($"корабль {i}", "Большой", 3, 150);
                 ships.Add(ship);
             }
 
@@ -68,6 +68,7 @@ namespace ships
                     }
                     else
                     {
+                        last_line(9);
                         timer.Start();
                         is_running = true;
                     }
@@ -174,6 +175,16 @@ namespace ships
             {
                 ship_departure(port, a, docked_ships, leave_ship);
             }
+        }
+
+        static void last_line(int num_line )
+        {
+            Console.SetCursorPosition(0, Console.CursorTop - num_line);
+            for (int i = 0; i < num_line + 1; i++)
+            {
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+            Console.SetCursorPosition(0, Console.CursorTop - num_line);
         }
     }
 }
